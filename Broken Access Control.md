@@ -2,12 +2,8 @@
 
 ## What is **Broken Access Control (BAC)**?
 
-**Broken Access Control (BAC)** occurs when a system does not properly enforce permissions or security rules, allowing users to access more data or perform actions they are not authorized for. 
-BAC is one of the most critical security vulnerabilities in web applications and can lead to various issues such as unauthorized data access, privilege escalation, and system manipulation.
-
-> **Key Points:**
-> - **BAC is not about hacking**; it is about a system that fails to properly check **who is allowed to do what**.
-> - BAC can lead to **unauthorized access**, **data breaches**, **privilege escalation**, and more.
+> **Broken Access Control (BAC)** occurs  when users can access more data than they should or perform actions beyond what they are authorized to, due to insufficient enforcement of permissions or security rules.
+> Broken access control is when users can access more data than they should or perform actions beyond what they are authorized to, due to insufficient enforcement of permissions or security rules.
 
 ---
 
