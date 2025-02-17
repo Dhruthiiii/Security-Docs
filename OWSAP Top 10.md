@@ -1,4 +1,6 @@
-The OWASP Top 10 is a standard awareness document for developers and security professionals, highlighting the most critical security risks in web applications. 
+OWASP, or the Open Web Application Security Project, is a nonprofit organization focused on software security. The OWASP Top 10 is a list of the 10 most common web application security risks. 
+
+
 Below is a detailed breakdown of each vulnerability, including its types or categories, real-world impact, and mitigation strategies.
 
 ---
