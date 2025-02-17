@@ -1,2 +1,18 @@
-# Security-Docs
-Security Notes + Payloads
+
+
+The OWASP Top 10 is a list of the ten most critical security risks to web applications. Below is a table with a brief description and links to each vulnerability for more details.
+
+| **#** | **Vulnerability**              | **Description**                                                                                         | **Link**                                                                                                                                             |
+|-------|---------------------------------|---------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | **Broken Access Control**       | Occurs when users can access resources or perform actions they shouldn't have permission for.            | [OWASP Broken Access Control](https://owasp.org/www-project-top-ten/2021/A01_2021-Broken_Access_Control)                                              |
+| 2     | **Cryptographic Failures**      | Refers to weaknesses in cryptography, such as poor encryption algorithms or key management.             | [OWASP Cryptographic Failures](https://owasp.org/www-project-top-ten/2021/A02_2021-Cryptographic_Failures)                                           |
+| 3     | **Injection**                   | Vulnerabilities where untrusted data is sent to an interpreter as part of a command or query, leading to unintended execution. | [OWASP Injection](https://owasp.org/www-project-top-ten/2021/A03_2021-Injection)                                                                   |
+| 4     | **Insecure Design**             | Refers to flaws in the architecture or design of an application that expose it to security risks.        | [OWASP Insecure Design](https://owasp.org/www-project-top-ten/2021/A04_2021-Insecure_Design)                                                        |
+| 5     | **Security Misconfiguration**   | Happens when an application, server, or database is insecurely configured, allowing unauthorized access. | [OWASP Security Misconfiguration](https://owasp.org/www-project-top-ten/2021/A05_2021-Security_Misconfiguration)                                    |
+| 6     | **Vulnerable and Outdated Components** | Involves using components with known vulnerabilities or outdated versions that could be exploited.       | [OWASP Vulnerable and Outdated Components](https://owasp.org/www-project-top-ten/2021/A06_2021-Vulnerable_and_Outdated_Components)                  |
+| 7     | **Identification and Authentication Failures** | Occurs when an application doesn't properly protect authentication mechanisms or session management.    | [OWASP Identification and Authentication Failures](https://owasp.org/www-project-top-ten/2021/A07_2021-Identification_and_Authentication_Failures) |
+| 8     | **Software and Data Integrity Failures** | Refers to problems related to code and data integrity, such as missing integrity checks or relying on untrusted inputs. | [OWASP Software and Data Integrity Failures](https://owasp.org/www-project-top-ten/2021/A08_2021-Software_and_Data_Integrity_Failures)              |
+| 9     | **Security Logging and Monitoring Failures** | Occurs when an application fails to log or monitor activities effectively, leading to a lack of detection for attacks. | [OWASP Security Logging and Monitoring Failures](https://owasp.org/www-project-top-ten/2021/A09_2021-Security_Logging_and_Monitoring_Failures)     |
+| 10    | **Server-Side Request Forgery (SSRF)** | Happens when an attacker can make a server send requests to internal or external systems, often bypassing security controls. | [OWASP Server-Side Request Forgery](https://owasp.org/www-project-top-ten/2021/A10_2021-Server_Side_Request_Forgery)                               |
+
+---
