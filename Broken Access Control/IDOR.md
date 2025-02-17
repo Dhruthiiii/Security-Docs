@@ -1,11 +1,19 @@
-IDOR vulnerabilities occur when an application allows direct access or manipulation of sensitive objects or resources without proper authorization or access control. 
-This can lead to unauthorized access, data exposure, and potentially malicious activities.
+
 
 # IDOR
 
-- At its core, an IDOR is an access control vulnerability in which an application relies on user-supplied input to reference objects directly. In this case, the object could be a picture, a comment on a post, personally identifiable information (PII) associated with a user or even an entire department within an organization.
-- Insecure Direct Object References occur when an application provides direct access to objects based on user-supplied input. As a result of this vulnerability attackers can bypass authorization and access resources in the system directly, for example database records or files. Insecure Direct Object References allow attackers to bypass authorization and access resources directly by modifying the value of a parameter used to directly point to an object. Such resources can be database entries belonging to other users, files in the system, and more.
-- IDORs can exist throughout the entire application so it is always suggested that if you see IDs then to always test, even if they are guids or some type of "encrypted id". Look for potential leaks of this ID (public profile?) or look for patterns and see if you can generate your own & run it through burp intruder.
+>Insecure Direct Object Reference (IDOR) is an access control vulnerability where an application lets users directly access objects based on user-supplied input, like images, PII, or database records. This allows attackers to bypass authorization and access unauthorized resources by manipulating parameters that point to objects.
+
+## When can we test for IDOR?
+
+## Testing for IDOR Vulnerabilities
+
+| **Test Point**         | **Description**                                                                 | **Action**                                                                                                                                 |
+|------------------------|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| **URL Parameters**      | Look for parameters in the URL (e.g., `id`, `user_id`, `order_id`) that reference objects (e.g., user data, orders, documents). | Modify these parameters and test if you can access data belonging to other users.                                                        |
+| **Form Inputs**         | Check for form fields (e.g., hidden fields, file uploads) referencing objects directly, like `user_id` or `file_path`. | Manipulate form inputs and observe if unauthorized resources can be accessed.                                                            |
+| **API Endpoints**       | Inspect API requests for direct object references (e.g., `GET /api/user/{user_id}`). | Modify parameters like `user_id` or `file_id` in API requests to test if you can access unauthorized data.                               |
+
 
 ## Types of IDOR you will see in wild:
 
