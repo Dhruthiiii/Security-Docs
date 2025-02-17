@@ -1,5 +1,3 @@
-
-
 # IDOR
 
 >Insecure Direct Object Reference (IDOR) is an access control vulnerability where an application lets users directly access objects based on user-supplied input, like images, PII, or database records. This allows attackers to bypass authorization and access unauthorized resources by manipulating parameters that point to objects.
@@ -7,7 +5,7 @@
 ## Where all can we test for IDOR?
 
 | **Test Point**         | **Description**                                                                 | **Action**                                                                                                                                 |
-|------------------------|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+|------------------------|---------------------------------------------------------------------------------|------------------------------------------------------------------------------|
 | **URL Parameters**      | Look for parameters in the URL (e.g., `id`, `user_id`, `order_id`) that reference objects (e.g., user data, orders, documents). | Modify these parameters and test if you can access data belonging to other users.                                                        |
 | **Form Inputs**         | Check for form fields (e.g., hidden fields, file uploads) referencing objects directly, like `user_id` or `file_path`. | Manipulate form inputs and observe if unauthorized resources can be accessed.                                                            |
 | **API Endpoints**       | Inspect API requests for direct object references (e.g., `GET /api/user/{user_id}`). | Modify parameters like `user_id` or `file_id` in API requests to test if you can access unauthorized data.                               |
@@ -51,118 +49,112 @@
 4. Done !!
 ```
 
-## Testcase - 1: Add IDs to requests that don’t have them
+## Testcases for IDOR Vulnerabilities
 
-```jsx
-GET /api/MyPictureList → /api/MyPictureList?user_id=<other_user_id>
+### 1) **Add IDs to requests that don’t have them:**
+| Instead of this  | Try this  |
+|------------------|-----------|
+| `GET /api/MyPictureList`  | `GET /api/MyPictureList?user_id=<other_user_id>`  |
 
-Pro tip: You can find parameter names to try by deleting or editing other objects and seeing the parameter names used.
-```
+**Pro Tip:**  
+You can find parameter names to try by deleting or editing other objects and seeing the parameter names used.
 
-## Testcase - 2: Try replacing parameter names
+---
 
-```jsx
-Instead of this:
-GET /api/albums?album_id=<album id>
+### 2) **Try replacing parameter names:**
+| Instead of this  | Try this  |
+|------------------|-----------|
+| `GET /api/albums?album_id=<album_id>` | `GET /api/albums?account_id=<account_id>` |
 
-Try This:
-GET /api/albums?account_id=<account id>
+**Pro Tip:**  
+There is a Burp extension called *Paramalyzer* which will help with this by remembering all the parameters you have passed to a host.
 
-Tip: There is a Burp extension called Paramalyzer which will help with this by remembering all the parameters you have passed to a host.
-```
+---
 
-## Testcase - 3: Supply multiple values for the same parameter.
+### 3) **Supply multiple values for the same parameter:**
+| Instead of this  | Try this  |
+|------------------|-----------|
+| `GET /api/account?id=<your_account_id>` | `GET /api/account?id=<your_account_id>&id=<admin_account_id>` |
 
-```jsx
-Instead of this:
-GET /api/account?id=<your account id> →
+**Pro Tip:**  
+This is known as HTTP parameter pollution. Something like this might give you access to another user's data, such as an admin’s account.
 
-Try this:    
-GET /api/account?id=<your account id>&id=<admin's account id>
+---
 
-Tip: This is known as HTTP parameter pollution. Something like this might get you access to the admin’s account
-```
+### 4) **Change the HTTP request method:**
+| Instead of this  | Try this  |
+|------------------|-----------|
+| `POST /api/account?id=<your_account_id>` | `PUT /api/account?id=<your_account_id>` |
 
-## Testcase - 4: Try changing the HTTP request method when testing for IDORs
+**Pro Tip:**  
+Try switching POST and PUT and see if you can upload something to another user’s profile. For RESTful services, try changing GET to POST/PUT/DELETE to discover create/update/delete actions.
 
-```jsx
-Instead of this:
-POST /api/account?id=<your account id> →
+---
 
-Try this:    
-PUT /api/account?id=<your account id>
+### 5) **Change the request’s content type:**
+| Instead of this  | Try this  |
+|------------------|-----------|
+| `POST /api/chat/join/123`  
+  `Content-type: application/xml`  
+  `<user>test</user>` | `POST /api/chat/join/123`  
+  `Content-type: application/json`  
+  `{“user”: “test”}` |
 
-Tip: Try switching POST and PUT and see if you can upload something to another user’s profile. For RESTful services, try changing GET to POST/PUT/DELETE to discover create/update/delete actions.
-```
+**Pro Tip:**  
+Access controls may be inconsistently implemented across different content types. Don’t forget to try alternative and less common values like text/xml, text/x-json, and similar.
 
-## Testcase - 5: Try changing the request’s content type
+---
 
-```jsx
-Instead of this:
-POST /api/chat/join/123
-[…]
-Content-type: application/xml → 
-<user>test</user>    
+### 6) **Try changing the requested file type:**
+| Instead of this  | Try this  |
+|------------------|-----------|
+| `GET /user_data/2341`  | `GET /user_data/2341.json`  |
 
-Try this:
+**Pro Tip:**  
+Experiment by appending different file extensions (e.g. .json, .xml, .config) to the end of requests that reference a document.
 
-POST /api/chat/join/123
-[…]
-Content-type: application/json
-{“user”: “test”}
+---
 
-Tip: Access controls may be inconsistently implemented across different content types. Don’t forget to try alternative and less common values like text/xml, text/x-json, and similar.
-```
+### 7) **Does the app ask for non-numeric IDs? Use numeric IDs instead:**
+| Instead of this  | Try this  |
+|------------------|-----------|
+| `username=user1`  | `username=1234`  |
+| `account_id=7541A92F-0101-4D1E-BBB0-EB5032FE1686`  | `account_id=5678`  |
+| `album_id=MyPictures`  | `album_id=12`  |
 
-## Testcase - 6: Try changing the requested file type (Test if Ruby)
+**Pro Tip:**  
+There may be multiple ways of referencing objects in the database and the application only has access controls on one. Try numeric IDs anywhere non-numeric IDs are accepted.
 
-```jsx
-Example:
+---
 
-GET /user_data/2341 --> 401 Unauthorized
+### 8) **Try using an array:**
+| Instead of this  | Try this  |
+|------------------|-----------|
+| `{"id":19}`  | `{"id":[19]}`  |
 
-GET /user_data/2341.json --> 200 OK
+**Pro Tip:**  
+If a regular ID replacement isn’t working, try wrapping the ID in an array and see if that does the trick.
 
-Tip: Experiment by appending different file extensions (e.g. .json, .xml, .config) to the end of requests that reference a document.
-```
+---
 
-## Testcase - 7: Does the app ask for non-numeric IDs? Use numeric IDs instead
+### 9) **Wildcard ID:**
+| Instead of this  | Try this  |
+|------------------|-----------|
+| `GET /api/users/<user_id>/`  | `GET /api/users/*`  |
 
-```jsx
-There may be multiple ways of referencing objects in the database and the application only has access controls on one. 
-Try numeric IDs anywhere non-numeric IDs are accepted:
-Example:
-
-username=user1 → username=1234
-account_id=7541A92F-0101-4D1E-BBB0-EB5032FE1686 → account_id=5678
-album_id=MyPictures → album_id=12
-```
-
-## Testcase - 8: Try using an array
-
-```markdown
-If a regular ID replacement isn’t working, try wrapping the ID in an array and see if that does the trick. For example:
-
-{“id”:19} → {“id”:[19]}
-```
-
-## Testcase - 9: Wildcard ID
-
-```markdown
+**Pro Tip:**  
 These can be very exciting bugs to find in the wild and are so simple. Try replacing an ID with a wildcard. You might get lucky!
 
-GET /api/users/<user_id>/ → GET /api/users/*
-```
+---
 
-## Testcase - 10: Pay attention to new features
+### 10) **Pay attention to new features:**
+| Instead of this  | Try this  |
+|------------------|-----------|
+| `/api/CharityEventFeb2021/user/pp/<ID>`  | N/A  |
 
-```markdown
-If you stumble upon a newly added feature within the web app, such as the ability to upload a profile picture for an upcoming charity event, and it performs an API call to:
+**Pro Tip:**  
+If you stumble upon a newly added feature within the web app, such as the ability to upload a profile picture for an upcoming charity event, check if access control is properly enforced for this new feature.
 
-/api/CharityEventFeb2021/user/pp/<ID>
-
-It is possible that the application may not enforce access control for this new feature as strictly as it does for core features.
-```
 
 # Testing For IDOR - ( Automated Method ):
 
