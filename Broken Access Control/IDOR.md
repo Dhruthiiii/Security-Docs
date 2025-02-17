@@ -56,8 +56,8 @@
 |------------------|-----------|
 | `GET /api/MyPictureList`  | `GET /api/MyPictureList?user_id=<other_user_id>`  |
 
->**Pro Tip:**  
->You can find parameter names to try by deleting or editing other objects and seeing the parameter names used.
+**Pro Tip:**  
+You can find parameter names to try by deleting or editing other objects and seeing the parameter names used.
 
 ---
 
@@ -66,8 +66,8 @@
 |------------------|-----------|
 | `GET /api/albums?album_id=<album_id>` | `GET /api/albums?account_id=<account_id>` |
 
->**Pro Tip:**  
->There is a Burp extension called *Paramalyzer* which will help with this by remembering all the parameters you have passed to a host.
+**Pro Tip:**  
+There is a Burp extension called *Paramalyzer* which will help with this by remembering all the parameters you have passed to a host.
 
 ---
 
@@ -76,8 +76,8 @@
 |------------------|-----------|
 | `GET /api/account?id=<your_account_id>` | `GET /api/account?id=<your_account_id>&id=<admin_account_id>` |
 
->**Pro Tip:**  
->This is known as HTTP parameter pollution. Something like this might give you access to another user's data, such as an admin’s account.
+**Pro Tip:**  
+This is known as HTTP parameter pollution. Something like this might give you access to another user's data, such as an admin’s account.
 
 ---
 
