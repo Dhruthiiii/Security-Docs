@@ -6,8 +6,6 @@
 
 ## Where all can we test for IDOR?
 
-## Testing for IDOR Vulnerabilities
-
 | **Test Point**         | **Description**                                                                 | **Action**                                                                                                                                 |
 |------------------------|---------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|
 | **URL Parameters**      | Look for parameters in the URL (e.g., `id`, `user_id`, `order_id`) that reference objects (e.g., user data, orders, documents). | Modify these parameters and test if you can access data belonging to other users.                                                        |
