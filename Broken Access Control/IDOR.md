@@ -4,7 +4,7 @@
 
 >Insecure Direct Object Reference (IDOR) is an access control vulnerability where an application lets users directly access objects based on user-supplied input, like images, PII, or database records. This allows attackers to bypass authorization and access unauthorized resources by manipulating parameters that point to objects.
 
-## When can we test for IDOR?
+## Where all can we test for IDOR?
 
 ## Testing for IDOR Vulnerabilities
 
